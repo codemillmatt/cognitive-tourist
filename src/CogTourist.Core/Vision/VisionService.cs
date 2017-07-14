@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿﻿using System.Threading.Tasks;
 using Microsoft.ProjectOxford.Vision;
 using System.IO;
 using System.Text;
@@ -9,16 +9,13 @@ namespace CogTourist.Core
 {
     public class VisionService
     {
-        static readonly string apiKey = "fb6e847547c84b2baf20dc43ae0681f8";
-        static readonly string url = "https://westcentralus.api.cognitive.microsoft.com/vision/v1.0";
-
         static readonly string could_not_analyze = "Couldn't analyze";
 
         readonly VisionServiceClient client;
 
         public VisionService()
         {
-            client = new VisionServiceClient(apiKey, url);
+            client = new VisionServiceClient(CognitiveServiceLogin.APIKey, CognitiveServiceLogin.VisionUrl);
         }
 
         public async Task<string> DescribePhoto(Stream photo)
@@ -35,13 +32,13 @@ namespace CogTourist.Core
             }
         }
 
-        public async Task<string> OCRPhoto(Stream photo)
+        public async Task<string> OCRPhoto(Stream photo, string originLanguage)
         {
             try
             {
                 var theFullReturn = new StringBuilder();
 
-                var textReturn = await client.RecognizeTextAsync(photo, "fr");
+                var textReturn = await client.RecognizeTextAsync(photo, originLanguage);
 
                 foreach (var item in textReturn.Regions)
                 {
