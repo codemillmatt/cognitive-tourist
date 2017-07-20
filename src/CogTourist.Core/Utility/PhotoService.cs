@@ -22,7 +22,7 @@ namespace CogTourist.Core
 
                 var photo = await CrossMedia.Current.PickPhotoAsync(GetPickOptions());
 
-                return photo.GetStream();
+                return photo?.GetStream();
             }
             catch (Exception ex)
             {

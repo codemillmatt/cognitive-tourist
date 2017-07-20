@@ -62,11 +62,10 @@ namespace CogTourist
 
                     photoStream.Position = 0;
                     var vs = new VisionService();
-                    // descriptionLabel.Text = await vs.DescribePhoto(photoStream);
-                    descriptionLabel.Text = await vs.OCRPhoto(photoStream, LanguageAbbreviations.French);
+                    descriptionLabel.Text = await vs.DescribePhoto(photoStream);
                 });
-                alert.AddAction(cameraAction);
 
+                alert.AddAction(cameraAction);
                 PresentViewController(alert, true, null);
             };
         }

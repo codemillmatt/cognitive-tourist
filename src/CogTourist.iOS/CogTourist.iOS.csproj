@@ -133,17 +133,13 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="FirstViewController.cs" />
-    <Compile Include="SecondViewController.cs" />
-    <Compile Include="FirstViewController.designer.cs">
-      <DependentUpon>FirstViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="SecondViewController.designer.cs">
-      <DependentUpon>SecondViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="LandmarkViewController.cs" />
     <Compile Include="LandmarkViewController.designer.cs">
       <DependentUpon>LandmarkViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="OCRViewController.cs" />
+    <Compile Include="OCRViewController.designer.cs">
+      <DependentUpon>OCRViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

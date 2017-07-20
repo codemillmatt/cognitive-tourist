@@ -57,7 +57,7 @@ namespace CogTourist.Core
 
                 return theFullReturn.ToString();
             }
-            catch
+            catch (Exception ex)
             {
                 return could_not_analyze;
             }
