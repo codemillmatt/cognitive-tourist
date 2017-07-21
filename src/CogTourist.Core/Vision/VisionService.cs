@@ -15,7 +15,7 @@ namespace CogTourist.Core
 
         public VisionService()
         {
-            client = new VisionServiceClient(CognitiveServiceLogin.APIKey, CognitiveServiceLogin.VisionUrl);
+            client = new VisionServiceClient(CognitiveServiceLogin.VisionAPIKey, CognitiveServiceLogin.VisionUrl);
         }
 
         public async Task<string> DescribePhoto(Stream photo)

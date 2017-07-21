@@ -61,8 +61,11 @@ namespace CogTourist
                     selectedPhoto.Image = new UIImage(NSData.FromStream(photoStream));
 
                     photoStream.Position = 0;
-                    var vs = new VisionService();
-                    descriptionLabel.Text = await vs.DescribePhoto(photoStream);
+                    //var vs = new VisionService();
+                    //descriptionLabel.Text = await vs.DescribePhoto(photoStream);
+
+                    var es = new EmotionService();
+                    var ret = es.RecognizeEmotions(photoStream);
                 });
 
                 alert.AddAction(cameraAction);

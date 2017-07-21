@@ -62,7 +62,8 @@ namespace CogTourist.Core
             return new StoreCameraMediaOptions
             {
                 SaveToAlbum = false,
-                PhotoSize = PhotoSize.Medium,
+                PhotoSize = PhotoSize.MaxWidthHeight,
+                MaxWidthHeight = 2000,
                 CompressionQuality = 100
             };
         }
