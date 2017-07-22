@@ -1,49 +1,73 @@
 ﻿using System;
 using Newtonsoft.Json;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace CogTourist.Core
 {
-    public class UploadEmotion
+    public class Scores
     {
-        public string url { get; set; }
+        [JsonProperty("anger")]
+        public double Anger { get; set; }
+
+        [JsonProperty("contempt")]
+        public double Contempt { get; set; }
+
+        [JsonProperty("disgust")]
+        public double Disgust { get; set; }
+
+        [JsonProperty("fear")]
+        public double Fear { get; set; }
+
+        [JsonProperty("happiness")]
+        public double Happiness { get; set; }
+
+        [JsonProperty("neutral")]
+        public double Neutral { get; set; }
+
+        [JsonProperty("sadness")]
+        public double Sadness { get; set; }
+
+        [JsonProperty("surprise")]
+        public double Surprise { get; set; }
     }
 
-	public class Scores
-	{
-		[JsonProperty("anger")]
-		public double Anger { get; set; }
+    public class Emotion
+    {
+        [JsonProperty("faceRectangle")]
+        public FaceRectangle FaceRectangle { get; set; }
 
-		[JsonProperty("contempt")]
-		public double Contempt { get; set; }
+        [JsonProperty("scores")]
+        public Scores Scores { get; set; }
 
-		[JsonProperty("disgust")]
-		public double Disgust { get; set; }
+        public string GetMainEmotion()
+        {
+            //var allScores = new Dictionary<string, double>();
 
-		[JsonProperty("fear")]
-		public double Fear { get; set; }
+            //allScores.Add("Angry", Scores.Anger);
+            //allScores.Add("Contempt", Scores.Contempt);
+            //allScores.Add("Disgusted", Scores.Disgust);
+            //allScores.Add("Afraid", Scores.Fear);
+            //allScores.Add("Happy", Scores.Happiness);
+            //allScores.Add("Sad", Scores.Sadness);
+            //allScores.Add("Surprised", Scores.Surprise);
 
-		[JsonProperty("happiness")]
-		public double Happiness { get; set; }
+            //return allScores.OrderByDescending(score => score.Value).First().Key;
 
-		[JsonProperty("neutral")]
-		public double Neutral { get; set; }
+            var allScores = new List<EmotionScore>
+            {
+                new EmotionScore{Emotion="Angry",Score=Scores.Anger},
+                new EmotionScore{Emotion="Contempt",Score = Scores.Contempt},
+                new EmotionScore{Emotion="Disgusted",Score=Scores.Disgust},
+                new EmotionScore{Emotion="Afraid",Score=Scores.Fear},
+                new EmotionScore{Emotion="Happy",Score=Scores.Happiness},
+                new EmotionScore{Emotion="Sad",Score=Scores.Sadness},
+                new EmotionScore{Emotion="Surprised",Score=Scores.Surprise}
+            };
 
-		[JsonProperty("sadness")]
-		public double Sadness { get; set; }
-
-		[JsonProperty("surprise")]
-		public double Surprise { get; set; }
-	}
-
-	public class Emotion
-	{
-
-		[JsonProperty("faceRectangle")]
-		public FaceRectangle FaceRectangle { get; set; }
-
-		[JsonProperty("scores")]
-		public Scores Scores { get; set; }
-	}
+            return allScores.OrderByDescending(score => score.Score).First().Emotion;
+        }
+    }
 
     public class FaceRectangle
     {
@@ -60,4 +84,9 @@ namespace CogTourist.Core
         public int Width { get; set; }
     }
 
+    class EmotionScore
+    {
+        public string Emotion { get; set; }
+        public double Score { get; set; }
+    }
 }

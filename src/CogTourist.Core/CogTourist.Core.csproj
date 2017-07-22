@@ -11,7 +11,6 @@
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.0.1" />
     <PackageReference Include="Microsoft.ProjectOxford.Vision" Version="1.0.393" />
     <PackageReference Include="Newtonsoft.Json" Version="10.0.3" />
-    <PackageReference Include="Microsoft.ProjectOxford.Emotion" Version="1.0.336" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Vision\" />
