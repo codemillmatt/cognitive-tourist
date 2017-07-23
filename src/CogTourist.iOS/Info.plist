@@ -38,5 +38,9 @@
 	<string>Pick vacation photos!</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Take vacation photos!</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Talk to strangers</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Talk to strangers</string>
 </dict>
 </plist>

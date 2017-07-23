@@ -4,7 +4,9 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -74,6 +76,7 @@
                     <connections>
                         <segue destination="bqK-98-ePx" kind="relationship" relationship="viewControllers" id="Ilx-cV-RcG"/>
                         <segue destination="a8O-On-fkQ" kind="relationship" relationship="viewControllers" id="fM4-1K-uAB"/>
+                        <segue destination="9fS-tY-WxE" kind="relationship" relationship="viewControllers" id="Xzc-eS-XxE"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HuB-VB-40B" sceneMemberID="firstResponder"/>
@@ -119,7 +122,7 @@
                             <constraint firstItem="4Jf-AK-Wx2" firstAttribute="top" secondItem="MGg-ej-yEe" secondAttribute="bottom" id="uyG-44-p2E"/>
                         </constraints>
                     </view>
-                    <tabBarItem key="tabBarItem" title="Item" id="eCI-Sf-IqR"/>
+                    <tabBarItem key="tabBarItem" title="OCR" image="Second" id="eCI-Sf-IqR"/>
                     <connections>
                         <outlet property="descriptionLabel" destination="l9b-7M-OW8" id="qg8-x6-oEj"/>
                         <outlet property="takePhotoButton" destination="tCp-oH-9ph" id="WpR-b9-Rv8"/>
@@ -130,8 +133,146 @@
             </objects>
             <point key="canvasLocation" x="1216.8" y="-0.44977511244377816"/>
         </scene>
+        <!--Emotion-->
+        <scene sceneID="W2w-TP-ogr">
+            <objects>
+                <navigationController id="9fS-tY-WxE" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Emotion" image="First" id="PXw-dL-Dyt"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="bBJ-ZQ-nf8">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="eeY-oo-ZRv" kind="relationship" relationship="rootViewController" id="aMV-2t-n8Z"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="yxw-xg-XUW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1209" y="812"/>
+        </scene>
+        <!--Emotion-->
+        <scene sceneID="CCS-HV-xti">
+            <objects>
+                <viewController title="Emotion" id="eeY-oo-ZRv" customClass="EmotionViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sHv-L0-XQJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="abl-Ad-FjO"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="3qf-dl-YsF">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="mOg-rE-dZr">
+                                <rect key="frame" x="0.0" y="64" width="375" height="554"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4XB-rf-TKr">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="427"/>
+                                    </imageView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Bwd-Nl-BD2">
+                                        <rect key="frame" x="95" y="432" width="185" height="122"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GHY-rk-1Jg">
+                                                <rect key="frame" x="0.0" y="0.0" width="77" height="122"/>
+                                                <state key="normal" title="Take Photo"/>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1oa-cJ-7N7">
+                                                <rect key="frame" x="97" y="0.0" width="88" height="122"/>
+                                                <state key="normal" title="Ask For Help"/>
+                                                <connections>
+                                                    <segue destination="0gA-Y6-xSH" kind="show" id="HG6-iS-vts"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="mOg-rE-dZr" firstAttribute="leading" secondItem="3qf-dl-YsF" secondAttribute="leading" id="F1B-jc-MAI"/>
+                            <constraint firstAttribute="trailing" secondItem="mOg-rE-dZr" secondAttribute="trailing" id="Wvm-tN-hu0"/>
+                            <constraint firstItem="abl-Ad-FjO" firstAttribute="top" secondItem="mOg-rE-dZr" secondAttribute="bottom" id="gHf-cQ-5jY"/>
+                            <constraint firstItem="mOg-rE-dZr" firstAttribute="top" secondItem="sHv-L0-XQJ" secondAttribute="bottom" id="zFg-Vo-gQ2"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="89a-et-7mW"/>
+                    <connections>
+                        <outlet property="askForHelp" destination="1oa-cJ-7N7" id="edZ-ve-tBo"/>
+                        <outlet property="personPhoto" destination="4XB-rf-TKr" id="zew-vM-QWy"/>
+                        <outlet property="takePhoto" destination="GHY-rk-1Jg" id="W6B-CE-tKy"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="K5E-xP-ZsJ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2433" y="804"/>
+        </scene>
+        <!--Translate View Controller-->
+        <scene sceneID="GQA-X4-pmX">
+            <objects>
+                <viewController id="0gA-Y6-xSH" customClass="TranslateViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="wgk-os-xnn"/>
+                        <viewControllerLayoutGuide type="bottom" id="bcr-6Z-AGK"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bP8-3l-rj5">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v80-X4-fas">
+                                <rect key="frame" x="136" y="529" width="103" height="81"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="103" id="OI6-8q-5GZ"/>
+                                    <constraint firstAttribute="height" constant="81" id="kDH-RE-JEd"/>
+                                </constraints>
+                                <state key="normal" title="Ask a Question"/>
+                            </button>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="28f-WD-h6J">
+                                <rect key="frame" x="16" y="84" width="343" height="128"/>
+                                <color key="backgroundColor" red="0.96078431610000004" green="0.42745098469999998" blue="0.31372550129999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="NK6-9d-ZS9"/>
+                                </constraints>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1Mk-eh-86Q">
+                                <rect key="frame" x="16" y="248" width="343" height="128"/>
+                                <color key="backgroundColor" red="0.59328329560000004" green="0.77738612890000003" blue="0.25757053489999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="128" id="hEu-1j-hQJ"/>
+                                </constraints>
+                                <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="1Mk-eh-86Q" firstAttribute="top" secondItem="28f-WD-h6J" secondAttribute="bottom" constant="36" id="1c6-jx-RWB"/>
+                            <constraint firstItem="bcr-6Z-AGK" firstAttribute="top" secondItem="v80-X4-fas" secondAttribute="bottom" constant="8" id="AH0-Zy-hOL"/>
+                            <constraint firstItem="1Mk-eh-86Q" firstAttribute="trailing" secondItem="bP8-3l-rj5" secondAttribute="trailingMargin" id="BVq-Jp-DaA"/>
+                            <constraint firstItem="28f-WD-h6J" firstAttribute="top" secondItem="wgk-os-xnn" secondAttribute="bottom" constant="20" id="Cyv-iI-fRo"/>
+                            <constraint firstItem="28f-WD-h6J" firstAttribute="centerX" secondItem="bP8-3l-rj5" secondAttribute="centerX" id="IOK-4m-nvo"/>
+                            <constraint firstItem="28f-WD-h6J" firstAttribute="trailing" secondItem="bP8-3l-rj5" secondAttribute="trailingMargin" id="ecF-XC-XWe"/>
+                            <constraint firstItem="1Mk-eh-86Q" firstAttribute="leading" secondItem="bP8-3l-rj5" secondAttribute="leadingMargin" id="jjP-zE-MnE"/>
+                            <constraint firstItem="v80-X4-fas" firstAttribute="centerX" secondItem="bP8-3l-rj5" secondAttribute="centerX" id="pdZ-ex-jHn"/>
+                            <constraint firstItem="28f-WD-h6J" firstAttribute="leading" secondItem="bP8-3l-rj5" secondAttribute="leadingMargin" id="xgo-uP-c84"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="askQuestion" destination="v80-X4-fas" id="0kb-EM-FyS"/>
+                        <outlet property="englishText" destination="28f-WD-h6J" id="YSx-Ag-7hI"/>
+                        <outlet property="translatedText" destination="1Mk-eh-86Q" id="wwx-xj-Cs1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="1Yk-NW-mna" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3429.5999999999999" y="811.84407796101959"/>
+        </scene>
     </scenes>
     <resources>
         <image name="First" width="30" height="30"/>
+        <image name="Second" width="30" height="30"/>
     </resources>
 </document>

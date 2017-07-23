@@ -29,7 +29,7 @@ namespace CogTourist
 
                 var photoAction = UIAlertAction.Create("Pick photo", UIAlertActionStyle.Default, async (obj) =>
                 {
-                    descriptionLabel.Text = "please wait...";
+					descriptionLabel.Text = "please wait...";
 
                     var ps = new PhotoService();
                     var photo = await ps.PickPhoto();
@@ -41,12 +41,8 @@ namespace CogTourist
 
                     // Need to reset the stream position before sending it on
                     photo.Position = 0;
-                    //var vs = new VisionService();
-                    //descriptionLabel.Text = await vs.DescribePhoto(photo);
-
-                    var es = new EmotionService();
-                    var ret = await es.RecognizeEmotions(photo);
-                    descriptionLabel.Text = ret.FirstOrDefault()?.GetMainEmotion() ?? "Inconclusive";
+                    var vs = new VisionService();
+                    descriptionLabel.Text = await vs.DescribePhoto(photo);
                 });
 
                 alert.AddAction(photoAction);
@@ -65,12 +61,8 @@ namespace CogTourist
                     selectedPhoto.Image = new UIImage(NSData.FromStream(photoStream));
 
                     photoStream.Position = 0;
-                    //var vs = new VisionService();
-                    //descriptionLabel.Text = await vs.DescribePhoto(photoStream);
-
-                    var es = new EmotionService();
-                    var ret = await es.RecognizeEmotions(photoStream);
-                    descriptionLabel.Text = ret.FirstOrDefault()?.GetMainEmotion() ?? "Inconclusive";
+                    var vs = new VisionService();
+                    descriptionLabel.Text = await vs.DescribePhoto(photoStream);
                 });
 
                 alert.AddAction(cameraAction);

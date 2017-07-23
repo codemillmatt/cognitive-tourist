@@ -42,18 +42,6 @@ namespace CogTourist.Core
 
         public string GetMainEmotion()
         {
-            //var allScores = new Dictionary<string, double>();
-
-            //allScores.Add("Angry", Scores.Anger);
-            //allScores.Add("Contempt", Scores.Contempt);
-            //allScores.Add("Disgusted", Scores.Disgust);
-            //allScores.Add("Afraid", Scores.Fear);
-            //allScores.Add("Happy", Scores.Happiness);
-            //allScores.Add("Sad", Scores.Sadness);
-            //allScores.Add("Surprised", Scores.Surprise);
-
-            //return allScores.OrderByDescending(score => score.Value).First().Key;
-
             var allScores = new List<EmotionScore>
             {
                 new EmotionScore{Emotion="Angry",Score=Scores.Anger},

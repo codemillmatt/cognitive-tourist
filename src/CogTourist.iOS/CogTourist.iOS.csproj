@@ -109,17 +109,11 @@
     <Reference Include="Microsoft.ProjectOxford.Vision">
       <HintPath>..\packages\Microsoft.ProjectOxford.Vision.1.0.393\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\Microsoft.ProjectOxford.Vision.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Extensions">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\Xamarin.iOS10\System.Net.Http.Extensions.dll</HintPath>
+    <Reference Include="Plugin.TextToSpeech.Abstractions">
+      <HintPath>..\packages\Xam.Plugins.TextToSpeech.3.0.1\lib\Xamarin.iOS10\Plugin.TextToSpeech.Abstractions.dll</HintPath>
     </Reference>
-    <Reference Include="System.Net.Http.Primitives">
-      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\Xamarin.iOS10\System.Net.Http.Primitives.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ProjectOxford.Common">
-      <HintPath>..\packages\Microsoft.ProjectOxford.Common.1.0.324\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\Microsoft.ProjectOxford.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.ProjectOxford.Emotion">
-      <HintPath>..\packages\Microsoft.ProjectOxford.Emotion.1.0.336\lib\portable-net45+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\Microsoft.ProjectOxford.Emotion.dll</HintPath>
+    <Reference Include="Plugin.TextToSpeech">
+      <HintPath>..\packages\Xam.Plugins.TextToSpeech.3.0.1\lib\Xamarin.iOS10\Plugin.TextToSpeech.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -153,6 +147,14 @@
     <Compile Include="OCRViewController.designer.cs">
       <DependentUpon>OCRViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="EmotionViewController.cs" />
+    <Compile Include="EmotionViewController.designer.cs">
+      <DependentUpon>EmotionViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TranslateViewController.cs" />
+    <Compile Include="TranslateViewController.designer.cs">
+      <DependentUpon>TranslateViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CogTourist.Core\CogTourist.Core.csproj">
@@ -161,5 +163,4 @@
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
-  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
 </Project>
