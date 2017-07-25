@@ -22,7 +22,7 @@ namespace CogTourist.Core
 
                 var photo = await CrossMedia.Current.PickPhotoAsync(GetPickOptions());
 
-                return photo.GetStream();
+                return photo?.GetStream();
             }
             catch (Exception ex)
             {
@@ -63,7 +63,7 @@ namespace CogTourist.Core
             {
                 SaveToAlbum = false,
                 PhotoSize = PhotoSize.Medium,
-                CompressionQuality = 100
+                CompressionQuality = 50
             };
         }
         async Task<bool> CheckCameraPermissions()

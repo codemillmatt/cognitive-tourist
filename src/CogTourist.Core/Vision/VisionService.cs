@@ -1,4 +1,4 @@
-﻿﻿using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.ProjectOxford.Vision;
 using System.IO;
 using System.Text;
@@ -15,7 +15,7 @@ namespace CogTourist.Core
 
         public VisionService()
         {
-            client = new VisionServiceClient(CognitiveServiceLogin.APIKey, CognitiveServiceLogin.VisionUrl);
+            client = new VisionServiceClient(CognitiveServiceLogin.VisionAPIKey, CognitiveServiceLogin.VisionUrl);
         }
 
         public async Task<string> DescribePhoto(Stream photo)
@@ -24,9 +24,10 @@ namespace CogTourist.Core
             {
                 var descReturn = await client.DescribeAsync(photo);
 
-                return descReturn?.Description?.Captions.FirstOrDefault()?.Text ?? could_not_analyze;
+
+                return descReturn?.Description?.Captions?.OrderByDescending(c => c.Confidence).FirstOrDefault()?.Text ?? could_not_analyze;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return could_not_analyze;
             }
@@ -57,7 +58,7 @@ namespace CogTourist.Core
 
                 return theFullReturn.ToString();
             }
-            catch
+            catch (Exception ex)
             {
                 return could_not_analyze;
             }
