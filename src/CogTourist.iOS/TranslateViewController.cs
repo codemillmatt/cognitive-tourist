@@ -43,7 +43,7 @@ namespace CogTourist
         {
             base.ViewDidLoad();
 
-            speechRecognizer = new SFSpeechRecognizer(new NSLocale("en-US"));
+            speechRecognizer = new SFSpeechRecognizer(new NSLocale("es-MX"));
             speechRecognizer.Delegate = this;
 
             englishText.Text = "";
@@ -80,7 +80,12 @@ namespace CogTourist
                     Language = "fr-FR"
                 };
 
-                await CrossTextToSpeech.Current.Speak(translatedText.Text, frenchLocale);
+                var englishLocale = new CrossLocale
+                {
+                    Language = "en-EN"
+                };
+
+                await CrossTextToSpeech.Current.Speak(translatedText.Text, englishLocale, volume: 1.0f);
             }
             else
             {
@@ -126,7 +131,7 @@ namespace CogTourist
                     var inputtedText = arg1.BestTranscription.FormattedString;
                     englishText.Text = inputtedText;
 
-                    translator.TranslateText(inputtedText, LanguageCodes.English, LanguageCodes.French).ContinueWith(async (arg) =>
+                    translator.TranslateText(inputtedText, LanguageCodes.Spanish, LanguageCodes.English).ContinueWith(async (arg) =>
                     {
                         var translated = await arg;
 

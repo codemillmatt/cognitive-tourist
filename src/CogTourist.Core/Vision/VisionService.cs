@@ -1,4 +1,4 @@
-﻿﻿using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Microsoft.ProjectOxford.Vision;
 using System.IO;
 using System.Text;
@@ -24,9 +24,10 @@ namespace CogTourist.Core
             {
                 var descReturn = await client.DescribeAsync(photo);
 
-                return descReturn?.Description?.Captions.FirstOrDefault()?.Text ?? could_not_analyze;
+
+                return descReturn?.Description?.Captions?.OrderByDescending(c => c.Confidence).FirstOrDefault()?.Text ?? could_not_analyze;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return could_not_analyze;
             }
