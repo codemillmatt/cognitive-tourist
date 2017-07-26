@@ -36,14 +36,14 @@ namespace CogTourist
             //if (available)
             //    askQuestion.Enabled = true;
             //else
-                //askQuestion.Enabled = false;
+            //askQuestion.Enabled = false;
         }
 
         public async override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            speechRecognizer = new SFSpeechRecognizer(new NSLocale("es-MX"));
+            speechRecognizer = new SFSpeechRecognizer(new NSLocale("en-US"));
             speechRecognizer.Delegate = this;
 
             englishText.Text = "";
@@ -75,17 +75,12 @@ namespace CogTourist
                 recognitionRequest.EndAudio();
                 askQuestion.SetTitle("Ask Question", UIControlState.Normal);
 
-                var frenchLocale = new CrossLocale
+                var targetLocal = new CrossLocale
                 {
-                    Language = "fr-FR"
+                    Language = AppDelegate.CurrentLanguage.AppleLanguageCode
                 };
 
-                var englishLocale = new CrossLocale
-                {
-                    Language = "en-EN"
-                };
-
-                await CrossTextToSpeech.Current.Speak(translatedText.Text, englishLocale, volume: 1.0f);
+                await CrossTextToSpeech.Current.Speak(translatedText.Text, targetLocal, volume: 1.0f);
             }
             else
             {
@@ -131,7 +126,10 @@ namespace CogTourist
                     var inputtedText = arg1.BestTranscription.FormattedString;
                     englishText.Text = inputtedText;
 
-                    translator.TranslateText(inputtedText, LanguageCodes.Spanish, LanguageCodes.English).ContinueWith(async (arg) =>
+                    var fromLanguage = LanguageCodes.English;
+                    var toLangague = AppDelegate.CurrentLanguage.LanguageCode;
+
+                    translator.TranslateText(inputtedText, fromLanguage, toLangague).ContinueWith(async (arg) =>
                     {
                         var translated = await arg;
 

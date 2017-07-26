@@ -41,7 +41,7 @@ namespace CogTourist
 
                 photo.Position = 0;
 
-                PickLanguage(photo);
+                await Translate(AppDelegate.CurrentLanguage.LanguageCode, photo);
             });
 
             var cameraAction = UIAlertAction.Create("Take Photo", UIAlertActionStyle.Default, async (obj) =>
@@ -59,35 +59,13 @@ namespace CogTourist
 
                 photoStream.Position = 0;
 
-                PickLanguage(photoStream);
+                await Translate(AppDelegate.CurrentLanguage.LanguageCode, photoStream);
             });
 
             alert.AddAction(photoAction);
             alert.AddAction(cameraAction);
 
             takePhotoButton.TouchUpInside += (sender, e) => PresentViewController(alert, true, null);
-        }
-
-        void PickLanguage(Stream incomingImage)
-        {
-            var englishAction = UIAlertAction.Create("English", UIAlertActionStyle.Default, async (obj) =>
-            {
-                await Translate(LanguageCodes.English, incomingImage);
-            });
-
-            var frenchAction = UIAlertAction.Create("French", UIAlertActionStyle.Default, async (obj) => await Translate(LanguageCodes.French, incomingImage));
-            var germanAction = UIAlertAction.Create("German", UIAlertActionStyle.Default, async (obj) => await Translate(LanguageCodes.German, incomingImage));
-            var italianAction = UIAlertAction.Create("Italian", UIAlertActionStyle.Default, async (obj) => await Translate(LanguageCodes.Italian, incomingImage));
-            var spanishAction = UIAlertAction.Create("Spanish", UIAlertActionStyle.Default, async (obj) => await Translate(LanguageCodes.Spanish, incomingImage));
-
-            var controller = UIAlertController.Create("Language", "What langauge is the photo in?", UIAlertControllerStyle.ActionSheet);
-            controller.AddAction(englishAction);
-            controller.AddAction(frenchAction);
-            controller.AddAction(germanAction);
-            controller.AddAction(italianAction);
-            controller.AddAction(spanishAction);
-
-           PresentViewController(controller, true, null);
         }
 
         async Task Translate(string language, Stream incomingImage)

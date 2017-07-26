@@ -42,7 +42,10 @@ namespace CogTourist
                     // Need to reset the stream position before sending it on
                     photo.Position = 0;
                     var vs = new VisionService();
-                    descriptionLabel.Text = await vs.DescribePhoto(photo);
+
+                    var landmarks = await vs.DescribePhoto(photo);
+
+                    descriptionLabel.Text = landmarks?.Landmarks?.FirstOrDefault()?.Name ?? "not found";
                 });
 
                 alert.AddAction(photoAction);
@@ -62,7 +65,10 @@ namespace CogTourist
 
                     photoStream.Position = 0;
                     var vs = new VisionService();
-                    descriptionLabel.Text = await vs.DescribePhoto(photoStream);
+
+                    var landmarks = await vs.DescribePhoto(photoStream);
+
+                    descriptionLabel.Text = landmarks?.Landmarks?.FirstOrDefault()?.Name ?? "not found";
                 });
 
                 alert.AddAction(cameraAction);

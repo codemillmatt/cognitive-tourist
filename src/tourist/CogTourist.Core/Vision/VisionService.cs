@@ -4,12 +4,17 @@ using System.IO;
 using System.Text;
 using System.Linq;
 using System;
+using Microsoft.ProjectOxford.Vision.Contract;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
+using Newtonsoft.Json;
 
 namespace CogTourist.Core
 {
     public class VisionService
     {
         static readonly string could_not_analyze = "Couldn't analyze";
+        static readonly string landmark_model = "landmarks";
 
         readonly VisionServiceClient client;
 
@@ -18,18 +23,22 @@ namespace CogTourist.Core
             client = new VisionServiceClient(CognitiveServiceLogin.VisionAPIKey, CognitiveServiceLogin.VisionUrl);
         }
 
-        public async Task<string> DescribePhoto(Stream photo)
+        public async Task<AllLandmarks> DescribePhoto(Stream photo)
         {
             try
             {
-                var descReturn = await client.DescribeAsync(photo);
+                var descReturn = await client.AnalyzeImageInDomainAsync(photo, landmark_model);
 
+                if (!(descReturn.Result is JContainer container))
+                    return null ;
 
-                return descReturn?.Description?.Captions?.OrderByDescending(c => c.Confidence).FirstOrDefault()?.Text ?? could_not_analyze;
+                var landmarks = container.ToObject<AllLandmarks>();
+
+                return landmarks;
             }
             catch (Exception ex)
             {
-                return could_not_analyze;
+                return null;
             }
         }
 
@@ -44,9 +53,9 @@ namespace CogTourist.Core
                 foreach (var item in textReturn.Regions)
                 {
                     foreach (var line in item.Lines)
-                    {
+                    {                        
                         foreach (var word in line.Words)
-                        {
+                        {                            
                             theFullReturn.Append($"{word.Text} ");
                         }
                         theFullReturn.AppendLine();

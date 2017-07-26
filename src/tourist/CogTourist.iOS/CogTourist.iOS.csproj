@@ -155,6 +155,11 @@
     <Compile Include="TranslateViewController.designer.cs">
       <DependentUpon>TranslateViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="LanguageController.cs" />
+    <Compile Include="LanguageController.designer.cs">
+      <DependentUpon>LanguageController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LanguageInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CogTourist.Core\CogTourist.Core.csproj">

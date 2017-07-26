@@ -1,5 +1,6 @@
 ﻿using Foundation;
 using UIKit;
+using Microsoft.ProjectOxford.Vision.Contract;
 
 namespace CogTourist
 {
@@ -9,6 +10,7 @@ namespace CogTourist
     public class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
+        public static LanguageInfo CurrentLanguage { get; set; } = SupportedLanguages.Languages[0];
 
         public override UIWindow Window
         {
