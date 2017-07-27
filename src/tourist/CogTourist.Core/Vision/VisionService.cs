@@ -55,7 +55,7 @@ namespace CogTourist.Core
                     foreach (var line in item.Lines)
                     {                        
                         foreach (var word in line.Words)
-                        {                            
+                        {                                                        
                             theFullReturn.Append($"{word.Text} ");
                         }
                         theFullReturn.AppendLine();
