@@ -19,6 +19,7 @@ namespace describe
     public partial class ViewController : UIViewController
     {
         UIAlertController overallSheet = null;
+        LoadingView loading;
 
         protected ViewController(IntPtr handle) : base(handle)
         {
@@ -33,6 +34,10 @@ namespace describe
             BuildActionSheetOptions();
 
             theButton.TouchUpInside += (sender, e) => PresentViewController(overallSheet, true, null);
+            thePhoto.ContentMode = UIViewContentMode.ScaleAspectFit;
+            thePhoto.BackgroundColor = UIColor.Black;
+
+            theText.Text = "No photo yet";
         }
 
         public override void DidReceiveMemoryWarning()
@@ -57,7 +62,13 @@ namespace describe
 
         async Task PerformRecognition(bool takePhoto)
         {
-            MediaFile photo = null;
+			thePhoto.Image = null;
+			theText.Text = "";
+            thePhoto.BackgroundColor = UIColor.Black;
+
+			loading = new LoadingView(UIScreen.MainScreen.Bounds);
+
+			MediaFile photo = null;
 
             if (takePhoto)
                 photo = await TakePhoto();
@@ -66,6 +77,8 @@ namespace describe
 
             if (photo == null)
                 return;
+
+            View.Add(loading);
 
             var vision = new VisionServiceClient("d4aac7248b344c43a617882035202e5c", "https://westcentralus.api.cognitive.microsoft.com/vision/v1.0");
 
@@ -80,17 +93,37 @@ namespace describe
                 var results = await vision.AnalyzeImageAsync(photoStream,
                     new List<VisualFeature>
                     {
-                        VisualFeature.Categories,VisualFeature.Description,VisualFeature.Faces, VisualFeature.Tags
+                        VisualFeature.Categories,VisualFeature.Description,VisualFeature.Faces, VisualFeature.Tags, VisualFeature.Color,
                     }, null);
+
+                ChangeImageViewBackground(results?.Color);
 
                 OutputAllSceneInfo(results);
 
                 DrawFaceRects(oldImage, results?.Faces);
+
+                loading.Hide();
+                loading = null;
+
                 await SpeakFaceInfo(results?.Faces);
 
                 await SpeakSceneInfo(results?.Description);
-
             }
+        }
+
+        void ChangeImageViewBackground(Color color)
+        {
+            if (color?.AccentColor == null)
+                return;
+
+
+            var redColor = Convert.ToInt32(color.AccentColor.Substring(0, 2), 16);
+            var greenColor = Convert.ToInt32(color.AccentColor.Substring(2, 2), 16);
+            var blueColor = Convert.ToInt32(color.AccentColor.Substring(4, 2), 16);
+
+            var imageBackground = UIColor.FromRGBA(redColor, greenColor, blueColor, 90);
+
+            thePhoto.BackgroundColor = imageBackground;
         }
 
         async Task<bool> AskCameraPermission()
@@ -157,10 +190,11 @@ namespace describe
             if (faces == null || faces.Length == 0)
                 return;
 
-            await CrossTextToSpeech.Current.Speak($"There are {faces.Length} faces");
 
             if (faces.Length > 2)
-                return;
+            {
+                await CrossTextToSpeech.Current.Speak($"There are {faces.Length} faces");
+            }
 
             foreach (var face in faces)
             {
@@ -263,22 +297,6 @@ namespace describe
                         mutable.Append(breakLine);
                     }
                 }
-
-                //if (result.Description?.Tags != null && result.Description.Tags.Count() > 0)
-                //{
-                //    var tagHeadingTwo = new NSAttributedString("Tags", subHeadingAttr);
-                //    mutable.Append(tagHeadingTwo);
-                //    mutable.Append(breakLine);
-
-                //    foreach (var tag in result.Description.Tags)
-                //    {
-                //        var tagInfo = $" - {tag}";
-                //        var tagTwoInfo = new NSAttributedString(tagInfo, new UIStringAttributes { Font = UIFont.PreferredBody });
-
-                //        mutable.Append(tagTwoInfo);
-                //        mutable.Append(breakLine);
-                //    }
-                //}
             }
 
             var faceHeading = new NSAttributedString("Faces", headingAttributes);
