@@ -57,7 +57,7 @@ namespace CogTourist
             if (shouldTakePhoto)
                 photoStream = (await photoService.TakePhoto()).GetStream();
             else
-                photoStream = await photoService.PickPhoto();
+                photoStream = (await photoService.PickPhoto()).GetStream();
 
 
             var oldImage = new UIImage(NSData.FromStream(photoStream));

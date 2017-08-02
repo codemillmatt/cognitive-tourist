@@ -32,7 +32,8 @@ namespace CogTourist
                 descriptionLabel.Text = "please wait...";
 
                 var ps = new PhotoService();
-                var photo = await ps.PickPhoto();
+                var photo = (await ps.PickPhoto()).GetStream();
+
 
                 if (photo == null)
                     return;

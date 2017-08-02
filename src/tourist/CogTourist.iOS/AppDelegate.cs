@@ -22,8 +22,17 @@ namespace CogTourist
         {
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
+            UIApplication.SharedApplication.IdleTimerDisabled = true;
+
+            var limeGreen = UIColor.FromRGB(1, 255, 112);
+            var navy = UIColor.FromRGB(0, 31, 63);
+            UINavigationBar.Appearance.BarTintColor = limeGreen;
+            UIBarButtonItem.Appearance.TintColor = UIColor.Black;
+            //UITabBar.Appearance.TintColor = navy;
+            //UIButton.Appearance.TintColor = navy;
 
             return true;
+
         }
 
         public override void OnResignActivation(UIApplication application)

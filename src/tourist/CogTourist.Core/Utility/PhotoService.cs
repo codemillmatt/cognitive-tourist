@@ -10,7 +10,7 @@ namespace CogTourist.Core
 {
     public class PhotoService
     {
-        public async Task<Stream> PickPhoto()
+        public async Task<MediaFile> PickPhoto()
         {
             try
             {
@@ -20,9 +20,7 @@ namespace CogTourist.Core
                 if (!CrossMedia.Current.IsPickPhotoSupported)
                     return null;
 
-                var photo = await CrossMedia.Current.PickPhotoAsync(GetPickOptions());
-
-                return photo?.GetStream();
+                return await CrossMedia.Current.PickPhotoAsync(GetPickOptions());
             }
             catch (Exception ex)
             {
