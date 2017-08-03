@@ -110,7 +110,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l9b-7M-OW8">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Description" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="l9b-7M-OW8">
                                 <rect key="frame" x="90.5" y="373" width="139" height="33.5"/>
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleTitle1"/>
                                 <nil key="textColor"/>
@@ -148,11 +148,11 @@
             </objects>
             <point key="canvasLocation" x="2272.5" y="0.0"/>
         </scene>
-        <!--Emotion-->
+        <!--Emotion Nav-->
         <scene sceneID="W2w-TP-ogr">
             <objects>
-                <navigationController id="9fS-tY-WxE" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Emotion" image="First" id="PXw-dL-Dyt"/>
+                <navigationController title="Emotion Nav" id="9fS-tY-WxE" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="" id="PXw-dL-Dyt"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="bBJ-ZQ-nf8">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -211,7 +211,8 @@
                             <constraint firstItem="Gxu-We-Ia8" firstAttribute="leading" secondItem="3qf-dl-YsF" secondAttribute="leading" id="jVG-Tq-yhh"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="89a-et-7mW"/>
+                    <tabBarItem key="tabBarItem" title="Emotion" image="Second" id="0aI-sp-Ypc"/>
+                    <navigationItem key="navigationItem" title="Emotion" id="89a-et-7mW"/>
                     <connections>
                         <outlet property="askForHelp" destination="1oa-cJ-7N7" id="edZ-ve-tBo"/>
                         <outlet property="personPhoto" destination="4XB-rf-TKr" id="zew-vM-QWy"/>
@@ -245,17 +246,18 @@
                             <outlet property="delegate" destination="zC0-oZ-i0g" id="9GJ-Dt-3Ti"/>
                         </connections>
                     </tableView>
+                    <tabBarItem key="tabBarItem" title="Lang" image="First" id="iiR-x2-tvM"/>
                     <navigationItem key="navigationItem" title="Language" id="HJH-ia-nG8"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="rC8-CD-c0c" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2658" y="1726"/>
         </scene>
-        <!--Language-->
+        <!--Language Nav-->
         <scene sceneID="pAv-EX-meS">
             <objects>
-                <navigationController id="Y98-m8-uRH" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Language" image="First" id="whL-Oq-5fI"/>
+                <navigationController title="Language Nav" id="Y98-m8-uRH" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Language" id="whL-Oq-5fI"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="jtM-Zi-mKs">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -297,7 +299,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="28f-WD-h6J">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="28f-WD-h6J">
                                 <rect key="frame" x="16" y="84" width="288" height="128"/>
                                 <color key="backgroundColor" red="0.96078431610000004" green="0.42745098469999998" blue="0.31372550129999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>
@@ -307,7 +309,7 @@
                                 <fontDescription key="fontDescription" style="UICTFontTextStyleBody"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="1Mk-eh-86Q">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Mk-eh-86Q">
                                 <rect key="frame" x="16" y="236.5" width="288" height="128"/>
                                 <color key="backgroundColor" red="0.59328329560000004" green="0.77738612890000003" blue="0.25757053489999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <constraints>

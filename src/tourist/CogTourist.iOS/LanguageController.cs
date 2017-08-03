@@ -13,6 +13,8 @@ namespace CogTourist
 {
 	public partial class LanguageController : UITableViewController, IUITableViewDataSource, IUITableViewDelegate
 	{
+        int currentlySelectedRow = 0;
+
 		public LanguageController (IntPtr handle) : base (handle)
 		{
 		}
@@ -34,6 +36,14 @@ namespace CogTourist
                 tc = new UITableViewCell(UITableViewCellStyle.Default, "id");
 
             tc.TextLabel.Text = SupportedLanguages.Languages[indexPath.Row].DisplayName;
+            tc.Accessory = UITableViewCellAccessory.None;
+            tc.SelectionStyle = UITableViewCellSelectionStyle.None;
+
+            if (SupportedLanguages.Languages[indexPath.Row].LanguageCode == AppDelegate.CurrentLanguage.LanguageCode)
+            {
+                currentlySelectedRow = indexPath.Row;
+                tc.Accessory = UITableViewCellAccessory.Checkmark;
+            }
 
             return tc;
         }
@@ -45,6 +55,10 @@ namespace CogTourist
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
+            tableView.CellAt(NSIndexPath.FromRowSection(currentlySelectedRow, 0)).Accessory = UITableViewCellAccessory.None;
+            tableView.CellAt(indexPath).Accessory = UITableViewCellAccessory.Checkmark;
+            currentlySelectedRow = indexPath.Row;
+
             AppDelegate.CurrentLanguage = SupportedLanguages.Languages[indexPath.Row];
         }
 	}
