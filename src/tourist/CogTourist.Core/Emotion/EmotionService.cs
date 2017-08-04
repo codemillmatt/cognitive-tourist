@@ -26,7 +26,7 @@ namespace CogTourist.Core
                     client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", CognitiveServiceLogin.EmotionAPIKey);
                     content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
 
-                    client.Timeout = TimeSpan.FromSeconds(60);
+                    client.Timeout = TimeSpan.FromSeconds(20);
                     var response = await client.PostAsync(CognitiveServiceLogin.EmotionUrl, content);
 
                     if (response.IsSuccessStatusCode)

@@ -8,6 +8,7 @@ using Microsoft.ProjectOxford.Vision.Contract;
 using Newtonsoft.Json.Linq;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using System.Threading;
 
 namespace CogTourist.Core
 {
@@ -15,6 +16,7 @@ namespace CogTourist.Core
     {
         static readonly string could_not_analyze = "Couldn't analyze";
         static readonly string landmark_model = "landmarks";
+        static readonly string celebrity_model = "celebrities";
 
         readonly VisionServiceClient client;
 
@@ -35,6 +37,29 @@ namespace CogTourist.Core
                 var landmarks = container.ToObject<AllLandmarks>();
 
                 return landmarks;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        public async Task<AllCelebrities> FindCelebrities(Stream photo, CancellationToken token)
+        {
+            try
+            {
+                token.ThrowIfCancellationRequested();
+
+                photo.Position = 0;
+
+                var descReturn = await client.AnalyzeImageInDomainAsync(photo, celebrity_model);
+
+				if (!(descReturn.Result is JContainer container))
+					return null;
+
+                var celebrities = container.ToObject<AllCelebrities>();
+
+				return celebrities;
             }
             catch (Exception ex)
             {
