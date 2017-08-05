@@ -25,6 +25,26 @@ namespace CogTourist.Core
             client = new VisionServiceClient(CognitiveServiceLogin.VisionAPIKey, CognitiveServiceLogin.VisionUrl);
         }
 
+        public async Task<AnalysisResult> AnalyzePhoto(Stream photo)
+        {
+            try
+            {
+                photo.Position = 0;
+
+                var results = await client.AnalyzeImageAsync(photo,
+                    new List<VisualFeature>
+                    {
+                        VisualFeature.Categories,VisualFeature.Description,VisualFeature.Faces, VisualFeature.Tags, VisualFeature.Color,
+                    }, null);
+
+                return results;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public async Task<AllLandmarks> DescribePhoto(Stream photo)
         {
             try
@@ -32,7 +52,7 @@ namespace CogTourist.Core
                 var descReturn = await client.AnalyzeImageInDomainAsync(photo, landmark_model);
 
                 if (!(descReturn.Result is JContainer container))
-                    return null ;
+                    return null;
 
                 var landmarks = container.ToObject<AllLandmarks>();
 
@@ -54,12 +74,12 @@ namespace CogTourist.Core
 
                 var descReturn = await client.AnalyzeImageInDomainAsync(photo, celebrity_model);
 
-				if (!(descReturn.Result is JContainer container))
-					return null;
+                if (!(descReturn.Result is JContainer container))
+                    return null;
 
                 var celebrities = container.ToObject<AllCelebrities>();
 
-				return celebrities;
+                return celebrities;
             }
             catch (Exception ex)
             {
@@ -78,9 +98,9 @@ namespace CogTourist.Core
                 foreach (var item in textReturn.Regions)
                 {
                     foreach (var line in item.Lines)
-                    {                        
+                    {
                         foreach (var word in line.Words)
-                        {                                                        
+                        {
                             theFullReturn.Append($"{word.Text} ");
                         }
                         theFullReturn.AppendLine();
@@ -97,5 +117,7 @@ namespace CogTourist.Core
                 return could_not_analyze;
             }
         }
+
+
     }
 }
