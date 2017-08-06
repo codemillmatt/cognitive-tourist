@@ -67,7 +67,7 @@ namespace CogTourist.Core
                     request.Method = HttpMethod.Get;
                     request.RequestUri = builder.Uri;
                     var token = await GetAuthorizationToken();
-                    request.Headers.Authorization = token;// await GetAuthorizationToken();
+                    request.Headers.Authorization = token;
 
                     client.Timeout = TimeSpan.FromSeconds(60);
 

@@ -10,7 +10,7 @@ namespace CogTourist
     public class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
-        public static LanguageInfo CurrentLanguage { get; set; } = SupportedLanguages.Languages[0];
+        public static LanguageInfo CurrentLanguage { get; set; } = SupportedLanguages.Languages[3];
 
         public override UIWindow Window
         {

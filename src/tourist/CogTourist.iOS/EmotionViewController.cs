@@ -8,6 +8,7 @@ using CogTourist.Core;
 using System.Threading.Tasks;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 using CoreAnimation;
 using CoreGraphics;
 using Plugin.Media.Abstractions;
@@ -29,6 +30,7 @@ namespace CogTourist
         {
             base.ViewDidLoad();
 			Title = "Emotion";
+            theEmotion.Text = "";
 
 			askForHelp.Hidden = true;
 
@@ -54,7 +56,7 @@ namespace CogTourist
 
             var useCamera = UIAlertAction.Create("Take Photo", UIAlertActionStyle.Default, async (obj) => await HandleCamera(true));
             var pickPhoto = UIAlertAction.Create("Pick Photo", UIAlertActionStyle.Default, async (obj) => await HandleCamera(false));
-            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
+            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel,(obj) => theEmotion.Text = "");
 
             photoPrompt.AddAction(pickPhoto);
             photoPrompt.AddAction(useCamera);
@@ -63,6 +65,8 @@ namespace CogTourist
 
         async Task HandleCamera(bool shouldTakePhoto)
         {
+            theEmotion.Text = "";
+
             MediaFile photo = null;
 
             loading = new LoadingView(UIScreen.MainScreen.Bounds);
@@ -87,6 +91,9 @@ namespace CogTourist
                 var allRecognizedEmotions = await emotionService.RecognizeEmotions(photoStream);
 
 				DrawEmotionsOnImage(oldImage, allRecognizedEmotions);
+
+                var firstEmotion = allRecognizedEmotions?.FirstOrDefault()?.GetMainEmotion() ?? "";
+                theEmotion.Text = firstEmotion;
 			}
 
             askForHelp.Hidden = false;

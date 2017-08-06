@@ -13,16 +13,16 @@ using Plugin.Media.Abstractions;
 
 namespace CogTourist
 {
-	public partial class OCRViewController : UIViewController
-	{
-		UIAlertController alert = null;
-		PhotoService ps = null;
-		VisionService vs = null;
-		LoadingView loading;
+    public partial class OCRViewController : UIViewController
+    {
+        UIAlertController alert = null;
+        PhotoService ps = null;
+        VisionService vs = null;
+        LoadingView loading;
 
-		public OCRViewController (IntPtr handle) : base (handle)
-		{
-		}
+        public OCRViewController(IntPtr handle) : base(handle)
+        {
+        }
 
         public override void ViewDidLoad()
         {
@@ -48,8 +48,8 @@ namespace CogTourist
         void BuildAlertActions()
         {
             var pickAction = UIAlertAction.Create("Pick Photo", UIAlertActionStyle.Default, async (obj) => await TakeOrPickPhoto(false));
-            var takeAction = UIAlertAction.Create("Take Photo", UIAlertActionStyle.Default,async (obj) =>  await TakeOrPickPhoto(true));
-            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
+            var takeAction = UIAlertAction.Create("Take Photo", UIAlertActionStyle.Default, async (obj) => await TakeOrPickPhoto(true));
+            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, (obj) => descriptionLabel.Text = "");
 
             alert.AddAction(pickAction);
             alert.AddAction(takeAction);
@@ -91,13 +91,13 @@ namespace CogTourist
 
         async Task Translate(string language, Stream incomingImage)
         {
-			var vs = new VisionService();
-			var desc = await vs.OCRPhoto(incomingImage, language);
+            var vs = new VisionService();
+            var desc = await vs.OCRPhoto(incomingImage, language);
 
-			var ts = new TranslateService();
-			var translatedDesc = await ts.TranslateText(desc, language, LanguageCodes.English);
+            var ts = new TranslateService();
+            var translatedDesc = await ts.TranslateText(desc, language, LanguageCodes.English);
 
-			descriptionLabel.Text = translatedDesc;
+            descriptionLabel.Text = translatedDesc;
         }
-	}
+    }
 }

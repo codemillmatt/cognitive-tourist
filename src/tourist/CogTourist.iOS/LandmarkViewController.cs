@@ -51,7 +51,7 @@ namespace CogTourist
         {
             var pickAction = UIAlertAction.Create("Pick Photo", UIAlertActionStyle.Default, async (obj) => await TakeOrPickPhoto(false));
             var takeAction = UIAlertAction.Create("Take Photo", UIAlertActionStyle.Default, async (obj) => await TakeOrPickPhoto(true));
-            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
+            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, (obj)=> descriptionLabel.Text ="");
 
             alert.AddAction(pickAction);
             alert.AddAction(takeAction);

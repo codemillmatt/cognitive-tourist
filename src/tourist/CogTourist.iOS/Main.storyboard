@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -183,15 +184,21 @@
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="4XB-rf-TKr">
                                         <rect key="frame" x="0.0" y="0.0" width="320" height="284"/>
                                     </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dOm-t3-phc">
+                                        <rect key="frame" x="133" y="284" width="54" height="26.5"/>
+                                        <fontDescription key="fontDescription" style="UICTFontTextStyleTitle2"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="30" translatesAutoresizingMaskIntoConstraints="NO" id="Bwd-Nl-BD2">
-                                        <rect key="frame" x="62.5" y="284" width="195" height="171"/>
+                                        <rect key="frame" x="62.5" y="310.5" width="195" height="144.5"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GHY-rk-1Jg">
-                                                <rect key="frame" x="0.0" y="0.0" width="77" height="171"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="77" height="144.5"/>
                                                 <state key="normal" title="Take Photo"/>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="1oa-cJ-7N7">
-                                                <rect key="frame" x="107" y="0.0" width="88" height="171"/>
+                                                <rect key="frame" x="107" y="0.0" width="88" height="144.5"/>
                                                 <state key="normal" title="Ask For Help"/>
                                                 <connections>
                                                     <segue destination="0gA-Y6-xSH" kind="show" id="HG6-iS-vts"/>
@@ -217,6 +224,7 @@
                         <outlet property="askForHelp" destination="1oa-cJ-7N7" id="edZ-ve-tBo"/>
                         <outlet property="personPhoto" destination="4XB-rf-TKr" id="zew-vM-QWy"/>
                         <outlet property="takePhoto" destination="GHY-rk-1Jg" id="W6B-CE-tKy"/>
+                        <outlet property="theEmotion" destination="dOm-t3-phc" id="WJY-dY-mDG"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="K5E-xP-ZsJ" userLabel="First Responder" sceneMemberID="firstResponder"/>

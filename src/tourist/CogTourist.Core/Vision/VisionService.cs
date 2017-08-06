@@ -64,12 +64,10 @@ namespace CogTourist.Core
             }
         }
 
-        public async Task<AllCelebrities> FindCelebrities(Stream photo, CancellationToken token)
+        public async Task<AllCelebrities> FindCelebrities(Stream photo)
         {
             try
             {
-                token.ThrowIfCancellationRequested();
-
                 photo.Position = 0;
 
                 var descReturn = await client.AnalyzeImageInDomainAsync(photo, celebrity_model);
