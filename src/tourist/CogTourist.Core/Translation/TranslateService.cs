@@ -32,7 +32,8 @@ namespace CogTourist.Core
                 request.Method = HttpMethod.Post;
                 request.RequestUri = new Uri(CognitiveServiceLogin.TranslateTokenUrl);
                 request.Content = new StringContent("");
-                request.Headers.TryAddWithoutValidation(subscriptionKeyHeader, CognitiveServiceLogin.TranslateAPIKey);
+                request.Headers.TryAddWithoutValidation(subscriptionKeyHeader, 
+                                                        CognitiveServiceLogin.TranslateAPIKey);
 
                 client.Timeout = TimeSpan.FromSeconds(20);
 
@@ -49,7 +50,8 @@ namespace CogTourist.Core
 
         }
 
-        public async Task<string> TranslateText(string text, string fromLanguage, string toLanguage)
+        public async Task<string> TranslateText(string text, string fromLanguage, 
+                                                string toLanguage)
         {
             var textKvp = new KeyValuePair<string, string>("text", text);
             var fromKvp = new KeyValuePair<string, string>("from", fromLanguage);
