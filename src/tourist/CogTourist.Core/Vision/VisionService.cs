@@ -46,11 +46,11 @@ namespace CogTourist.Core
             }
         }
 
-        public async Task<AllLandmarks> DescribePhoto(Stream photo)
+        public async Task<AllLandmarks> FindLandmarks(Stream photo)
         {
             try
             {
-                var descReturn = await client.AnalyzeImageInDomainAsync(photo, 
+                var descReturn = await client.AnalyzeImageInDomainAsync(photo,
                                                                         landmark_model);
 
                 if (!(descReturn.Result is JContainer container))
@@ -72,7 +72,7 @@ namespace CogTourist.Core
             {
                 photo.Position = 0;
 
-                var descReturn = await client.AnalyzeImageInDomainAsync(photo, 
+                var descReturn = await client.AnalyzeImageInDomainAsync(photo,
                                                                         celebrity_model);
 
                 if (!(descReturn.Result is JContainer container))
@@ -88,6 +88,48 @@ namespace CogTourist.Core
             }
         }
 
+        public async Task<string> OCRHandwriting(Stream photo)
+        {
+            try
+            {
+                var theFullReturn = new StringBuilder();
+
+                HandwritingRecognitionOperationResult result;
+
+                photo.Position = 0;
+
+                var handwriteStart = await client.CreateHandwritingRecognitionOperationAsync(photo);
+
+                result = await client.GetHandwritingRecognitionOperationResultAsync(handwriteStart);
+
+                while (result.Status == HandwritingRecognitionOperationStatus.Running ||
+                       result.Status == HandwritingRecognitionOperationStatus.NotStarted)
+                {
+                    await Task.Delay(500);
+                    result = await client.GetHandwritingRecognitionOperationResultAsync(handwriteStart);
+                }
+
+                if (result.Status == HandwritingRecognitionOperationStatus.Succeeded)
+                {
+                    foreach (var line in result.RecognitionResult.Lines)
+                    {
+                        foreach (var word in line.Words)
+                        {
+                            theFullReturn.Append($"{word.Text} ");
+                        }
+                    }
+
+                    return theFullReturn.ToString();
+                }
+
+                return could_not_analyze;
+            }
+            catch (Exception ex)
+            {
+                return could_not_analyze;
+            }
+        }
+
         public async Task<string> OCRPhoto(Stream photo, string originLanguage)
         {
             try
@@ -98,7 +140,7 @@ namespace CogTourist.Core
 
                 foreach (var item in textReturn.Regions)
                 {
-                    
+
                     foreach (var line in item.Lines)
                     {
                         foreach (var word in line.Words)
