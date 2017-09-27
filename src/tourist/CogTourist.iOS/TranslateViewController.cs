@@ -29,19 +29,14 @@ namespace CogTourist
         public TranslateViewController(IntPtr handle) : base(handle)
         {
         }
-
-        [Export("speechRecognizer:availabilityDidChange:")]
-        public void AvailabilityDidChange(SFSpeechRecognizer speechRecognizer, bool available)
-        {
-            //if (available)
-            //    askQuestion.Enabled = true;
-            //else
-            //askQuestion.Enabled = false;
-        }
-
+       
         public async override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            Title = "Translate";
+
+            this.AutomaticallyAdjustsScrollViewInsets = false;
 
             speechRecognizer = new SFSpeechRecognizer(new NSLocale("en-US"));
             speechRecognizer.Delegate = this;
@@ -49,22 +44,27 @@ namespace CogTourist
             englishText.Text = "";
             translatedText.Text = "";
 
-            var microphonePermission = await AskForMicrophonePermission();
-            var speechPermission = await AskForSpeechPermission();
-
-            if (!microphonePermission || !speechPermission)
-            {
-                var popup = UIAlertController.Create("Permission Issue", "App doesn't have access the microphone or speech service", UIAlertControllerStyle.Alert);
-                var okAction = UIAlertAction.Create("OK", UIAlertActionStyle.Default, null);
-
-                popup.AddAction(okAction);
-
-                PresentViewController(popup, true, null);
-
-                askQuestion.Enabled = false;
-            }
+            await AskPermissions();
 
             askQuestion.TouchUpInside += AskQuestion_TouchUpInside;
+        }
+
+        async Task AskPermissions()
+        {
+			var microphonePermission = await AskForMicrophonePermission();
+			var speechPermission = await AskForSpeechPermission();
+
+			if (!microphonePermission || !speechPermission)
+			{
+				var popup = UIAlertController.Create("Permission Issue", "App doesn't have access the microphone or speech service", UIAlertControllerStyle.Alert);
+				var okAction = UIAlertAction.Create("OK", UIAlertActionStyle.Default, null);
+
+				popup.AddAction(okAction);
+
+				PresentViewController(popup, true, null);
+
+				askQuestion.Enabled = false;
+			}
         }
 
         async void AskQuestion_TouchUpInside(object sender, EventArgs e)
@@ -103,7 +103,7 @@ namespace CogTourist
             {
                 NSError err;
                 audioSession.SetCategory(AVAudioSessionCategory.PlayAndRecord);
-                audioSession.SetMode(AVFoundation.AVAudioSession.ModeMeasurement, out err);
+                audioSession.SetMode(AVAudioSession.ModeMeasurement, out err);
                 audioSession.SetActive(true);
             }
             catch (Exception ex)
@@ -167,10 +167,7 @@ namespace CogTourist
                 englishText.Text = "OK, here we go!";
                 translatedText.Text = "";
             }
-            catch (Exception ex)
-            {
-
-            }
+            catch (Exception) { }
         }
 
         async Task<bool> AskForMicrophonePermission()

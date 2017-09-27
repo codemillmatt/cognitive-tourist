@@ -23,11 +23,15 @@ namespace CogTourist.Core
                 using (var content = new StreamContent(image))
                 using (var client = new HttpClient())
                 {
-                    client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", CognitiveServiceLogin.EmotionAPIKey);
-                    content.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
+                    client.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", 
+                                                     CognitiveServiceLogin.EmotionAPIKey);
+                    
+                    content.Headers.ContentType = new 
+                        MediaTypeHeaderValue("application/octet-stream");
 
-                    client.Timeout = TimeSpan.FromSeconds(60);
-                    var response = await client.PostAsync(CognitiveServiceLogin.EmotionUrl, content);
+                    client.Timeout = TimeSpan.FromSeconds(20);
+                    var response = await client.PostAsync(CognitiveServiceLogin.EmotionUrl, 
+                                                          content);
 
                     if (response.IsSuccessStatusCode)
                     {

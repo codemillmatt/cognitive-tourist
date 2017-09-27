@@ -10,7 +10,7 @@ namespace CogTourist
     public class AppDelegate : UIApplicationDelegate
     {
         // class-level declarations
-        public static LanguageInfo CurrentLanguage { get; set; } = SupportedLanguages.Languages[0];
+        public static LanguageInfo CurrentLanguage { get; set; } = SupportedLanguages.Languages[3];
 
         public override UIWindow Window
         {
@@ -22,8 +22,17 @@ namespace CogTourist
         {
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
+            UIApplication.SharedApplication.IdleTimerDisabled = true;
+
+            var limeGreen = UIColor.FromRGB(1, 255, 112);
+            var navy = UIColor.FromRGB(0, 31, 63);
+            UINavigationBar.Appearance.BarTintColor = limeGreen;
+            UIBarButtonItem.Appearance.TintColor = UIColor.Black;
+            //UITabBar.Appearance.TintColor = navy;
+            //UIButton.Appearance.TintColor = navy;
 
             return true;
+
         }
 
         public override void OnResignActivation(UIApplication application)

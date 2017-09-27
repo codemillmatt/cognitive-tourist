@@ -8,15 +8,19 @@ using CogTourist.Core;
 using System.Threading.Tasks;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 using CoreAnimation;
 using CoreGraphics;
+using Plugin.Media.Abstractions;
 
 namespace CogTourist
 {
     public partial class EmotionViewController : UIViewController
     {
+        UIAlertController photoPrompt;
         EmotionService emotionService;
         PhotoService photoService;
+        LoadingView loading;
 
         public EmotionViewController(IntPtr handle) : base(handle)
         {
@@ -25,49 +29,75 @@ namespace CogTourist
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+			Title = "Emotion";
+            theEmotion.Text = "";
 
-            askForHelp.Hidden = true;
+			askForHelp.Hidden = true;
+
+            personPhoto.Image = null;
+            personPhoto.BackgroundColor = UIColor.FromRGBA(0, 0, 0, 70);
+            personPhoto.ContentMode = UIViewContentMode.ScaleAspectFit;
 
             emotionService = new EmotionService();
             photoService = new PhotoService();
 
-            Title = "Emotion";
-            var photoPrompt = UIAlertController.Create("Emotion", "Pick or take a photo", UIAlertControllerStyle.ActionSheet);
+            CreateActionPrompts();
+
+            takePhoto.TouchUpInside += (sender, e) =>
+		    {
+		        askForHelp.Hidden = true;
+		        PresentViewController(photoPrompt, true, null);
+		    };
+        }
+
+        void CreateActionPrompts()
+        {
+            photoPrompt = UIAlertController.Create("Emotion", "Pick or take a photo", UIAlertControllerStyle.ActionSheet);
 
             var useCamera = UIAlertAction.Create("Take Photo", UIAlertActionStyle.Default, async (obj) => await HandleCamera(true));
             var pickPhoto = UIAlertAction.Create("Pick Photo", UIAlertActionStyle.Default, async (obj) => await HandleCamera(false));
-            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null);
+            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel,(obj) => theEmotion.Text = "");
 
             photoPrompt.AddAction(pickPhoto);
             photoPrompt.AddAction(useCamera);
             photoPrompt.AddAction(cancelAction);
-
-            takePhoto.TouchUpInside += (sender, e) =>
-            {
-                askForHelp.Hidden = true;
-                PresentViewController(photoPrompt, true, null);
-            };
-
         }
 
         async Task HandleCamera(bool shouldTakePhoto)
         {
-            Stream photoStream;
+            theEmotion.Text = "";
+
+            MediaFile photo = null;
+
+            loading = new LoadingView(UIScreen.MainScreen.Bounds);
+            View.Add(loading);
 
             if (shouldTakePhoto)
-                photoStream = (await photoService.TakePhoto()).GetStream();
+                photo = await photoService.TakePhoto();
             else
-                photoStream = await photoService.PickPhoto();
+                photo = await photoService.PickPhoto();
 
+            if (photo == null)
+            {
+                loading.Hide();
+                return;
+            }
 
-            var oldImage = new UIImage(NSData.FromStream(photoStream));
-            personPhoto.Image = oldImage;
+            using (var photoStream = photo.GetStream())
+            {
+                var oldImage = new UIImage(NSData.FromStream(photoStream));
+                personPhoto.Image = oldImage;
 
-            var allRecognizedEmotions = await emotionService.RecognizeEmotions(photoStream);
+                var allRecognizedEmotions = await emotionService.RecognizeEmotions(photoStream);
 
-            DrawEmotionsOnImage(oldImage, allRecognizedEmotions);
+				DrawEmotionsOnImage(oldImage, allRecognizedEmotions);
+
+                var firstEmotion = allRecognizedEmotions?.FirstOrDefault()?.GetMainEmotion() ?? "";
+                theEmotion.Text = firstEmotion;
+			}
 
             askForHelp.Hidden = false;
+            loading.Hide();
         }
 
         void DrawEmotionsOnImage(UIImage theImage, List<Emotion> allEmotions)

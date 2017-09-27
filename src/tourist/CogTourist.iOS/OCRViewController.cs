@@ -9,74 +9,95 @@ using Microsoft.ProjectOxford.Vision.Contract;
 using System.IO;
 using System.Threading.Tasks;
 using CallKit;
+using Plugin.Media.Abstractions;
 
 namespace CogTourist
 {
-	public partial class OCRViewController : UIViewController
-	{
+    public partial class OCRViewController : UIViewController
+    {
+        UIAlertController alert = null;
+        PhotoService ps = null;
+        VisionService vs = null;
+        LoadingView loading;
 
-		public OCRViewController (IntPtr handle) : base (handle)
-		{
-		}
+        public OCRViewController(IntPtr handle) : base(handle)
+        {
+        }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
 
-            descriptionLabel.Text = "Take or pick a photo!";
+            Title = "OCR";
 
-            var alert = UIAlertController.Create("OCR", "Pick or take a photo", UIAlertControllerStyle.ActionSheet);
+            vs = new VisionService();
+            ps = new PhotoService();
 
-            var photoAction = UIAlertAction.Create("Pick Photo", UIAlertActionStyle.Default, async (obj) =>
-            {
-                descriptionLabel.Text = "please wait...";
+            descriptionLabel.Text = "";
 
-                var ps = new PhotoService();
-                var photo = await ps.PickPhoto();
+            theImage.Image = null;
+            theImage.BackgroundColor = UIColor.FromRGBA(0, 0, 0, 70);
+            theImage.ContentMode = UIViewContentMode.ScaleAspectFit;
 
-                if (photo == null)
-                    return;
-
-                theImage.Image = new UIImage(NSData.FromStream(photo));
-
-                photo.Position = 0;
-
-                await Translate(AppDelegate.CurrentLanguage.LanguageCode, photo);
-            });
-
-            var cameraAction = UIAlertAction.Create("Take Photo", UIAlertActionStyle.Default, async (obj) =>
-            {
-                descriptionLabel.Text = "please wait...";
-
-                var ps = new PhotoService();
-                var photo = await ps.TakePhoto();
-
-                var photoStream = photo?.GetStream();
-                if (photoStream == null)
-                    return;
-
-                theImage.Image = new UIImage(NSData.FromStream(photoStream));
-
-                photoStream.Position = 0;
-
-                await Translate(AppDelegate.CurrentLanguage.LanguageCode, photoStream);
-            });
-
-            alert.AddAction(photoAction);
-            alert.AddAction(cameraAction);
+            alert = UIAlertController.Create("OCR", "Pick or take a photo", UIAlertControllerStyle.ActionSheet);
+            BuildAlertActions();
 
             takePhotoButton.TouchUpInside += (sender, e) => PresentViewController(alert, true, null);
         }
 
+        void BuildAlertActions()
+        {
+            var pickAction = UIAlertAction.Create("Pick Photo", UIAlertActionStyle.Default, async (obj) => await TakeOrPickPhoto(false));
+            var takeAction = UIAlertAction.Create("Take Photo", UIAlertActionStyle.Default, async (obj) => await TakeOrPickPhoto(true));
+            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, (obj) => descriptionLabel.Text = "");
+
+            alert.AddAction(pickAction);
+            alert.AddAction(takeAction);
+            alert.AddAction(cancelAction);
+        }
+
+        async Task TakeOrPickPhoto(bool takePhoto)
+        {
+            theImage.Image = null;
+            descriptionLabel.Text = "";
+
+            loading = new LoadingView(UIScreen.MainScreen.Bounds);
+            View.Add(loading);
+
+            MediaFile photo = null;
+
+            if (takePhoto)
+                photo = await ps.TakePhoto();
+            else
+                photo = await ps.PickPhoto();
+
+            if (photo == null)
+            {
+                loading.Hide();
+                return;
+            }
+
+            using (var imageStream = photo.GetStream())
+            {
+                theImage.Image = new UIImage(NSData.FromStream(imageStream));
+
+                imageStream.Position = 0;
+
+                await Translate(AppDelegate.CurrentLanguage.LanguageCode, imageStream);
+            }
+
+            loading.Hide();
+        }
+
         async Task Translate(string language, Stream incomingImage)
         {
-			var vs = new VisionService();
-			var desc = await vs.OCRPhoto(incomingImage, language);
+            var vs = new VisionService();
+            var desc = await vs.OCRPhoto(incomingImage, language);
 
-			var ts = new TranslateService();
-			var translatedDesc = await ts.TranslateText(desc, language, LanguageCodes.English);
+            var ts = new TranslateService();
+            var translatedDesc = await ts.TranslateText(desc, language, LanguageCodes.English);
 
-			descriptionLabel.Text = translatedDesc;
+            descriptionLabel.Text = translatedDesc;
         }
-	}
+    }
 }

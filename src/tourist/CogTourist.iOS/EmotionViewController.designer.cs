@@ -23,9 +23,17 @@ namespace CogTourist
 
 		[Outlet]
 		UIKit.UIButton takePhoto { get; set; }
+
+		[Outlet]
+		UIKit.UILabel theEmotion { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (askForHelp != null) {
+				askForHelp.Dispose ();
+				askForHelp = null;
+			}
+
 			if (personPhoto != null) {
 				personPhoto.Dispose ();
 				personPhoto = null;
@@ -41,9 +49,9 @@ namespace CogTourist
 				takePhoto = null;
 			}
 
-			if (askForHelp != null) {
-				askForHelp.Dispose ();
-				askForHelp = null;
+			if (theEmotion != null) {
+				theEmotion.Dispose ();
+				theEmotion = null;
 			}
 		}
 	}

@@ -160,6 +160,7 @@
       <DependentUpon>LanguageController.cs</DependentUpon>
     </Compile>
     <Compile Include="LanguageInfo.cs" />
+    <Compile Include="LoadingView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CogTourist.Core\CogTourist.Core.csproj">
