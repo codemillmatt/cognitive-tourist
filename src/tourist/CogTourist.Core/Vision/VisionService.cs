@@ -46,11 +46,11 @@ namespace CogTourist.Core
             }
         }
 
-        public async Task<AllLandmarks> DescribePhoto(Stream photo)
+        public async Task<AllLandmarks> FindLandmarks(Stream photo)
         {
             try
             {
-                var descReturn = await client.AnalyzeImageInDomainAsync(photo, 
+                var descReturn = await client.AnalyzeImageInDomainAsync(photo,
                                                                         landmark_model);
 
                 if (!(descReturn.Result is JContainer container))
@@ -72,7 +72,7 @@ namespace CogTourist.Core
             {
                 photo.Position = 0;
 
-                var descReturn = await client.AnalyzeImageInDomainAsync(photo, 
+                var descReturn = await client.AnalyzeImageInDomainAsync(photo,
                                                                         celebrity_model);
 
                 if (!(descReturn.Result is JContainer container))
@@ -98,7 +98,7 @@ namespace CogTourist.Core
 
                 foreach (var item in textReturn.Regions)
                 {
-                    
+
                     foreach (var line in item.Lines)
                     {
                         foreach (var word in line.Words)

@@ -51,7 +51,7 @@ namespace CogTourist
         {
             var pickAction = UIAlertAction.Create("Pick Photo", UIAlertActionStyle.Default, async (obj) => await TakeOrPickPhoto(false));
             var takeAction = UIAlertAction.Create("Take Photo", UIAlertActionStyle.Default, async (obj) => await TakeOrPickPhoto(true));
-            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, (obj)=> descriptionLabel.Text ="");
+            var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, (obj) => descriptionLabel.Text = "");
 
             alert.AddAction(pickAction);
             alert.AddAction(takeAction);
@@ -81,11 +81,27 @@ namespace CogTourist
             {
                 selectedPhoto.Image = new UIImage(NSData.FromStream(photoStream));
 
+                var celebrityStream = new MemoryStream();
                 photoStream.Position = 0;
+                photoStream.CopyTo(celebrityStream);
+                photoStream.Position = 0;
+                celebrityStream.Position = 0;
 
-                var landmarks = await vs.DescribePhoto(photoStream);
+                var landmarkTask = vs.FindLandmarks(photoStream);
+                var celebrityTask = vs.FindCelebrities(celebrityStream);
 
-                descriptionLabel.Text = landmarks?.Landmarks?.FirstOrDefault()?.Name ?? "that's not a landmark!";
+                await Task.WhenAll(landmarkTask, celebrityTask);
+
+                var landmarks = landmarkTask.Result;
+                var celebrities = celebrityTask.Result;
+
+                var resultText = landmarks?.Landmarks?.FirstOrDefault()?.Name ??
+                                             celebrities?.Celebrities?.FirstOrDefault()?.Name ??
+                                             "couldn't figure it out";
+
+                descriptionLabel.Text = resultText;
+
+                //descriptionLabel.Text = landmarks?.Landmarks?.FirstOrDefault()?.Name ?? "that's not a landmark!";
             }
 
             loading.Hide();
