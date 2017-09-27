@@ -88,6 +88,48 @@ namespace CogTourist.Core
             }
         }
 
+        public async Task<string> OCRHandwriting(Stream photo)
+        {
+            try
+            {
+                var theFullReturn = new StringBuilder();
+
+                HandwritingRecognitionOperationResult result;
+
+                photo.Position = 0;
+
+                var handwriteStart = await client.CreateHandwritingRecognitionOperationAsync(photo);
+
+                result = await client.GetHandwritingRecognitionOperationResultAsync(handwriteStart);
+
+                while (result.Status == HandwritingRecognitionOperationStatus.Running ||
+                       result.Status == HandwritingRecognitionOperationStatus.NotStarted)
+                {
+                    await Task.Delay(500);
+                    result = await client.GetHandwritingRecognitionOperationResultAsync(handwriteStart);
+                }
+
+                if (result.Status == HandwritingRecognitionOperationStatus.Succeeded)
+                {
+                    foreach (var line in result.RecognitionResult.Lines)
+                    {
+                        foreach (var word in line.Words)
+                        {
+                            theFullReturn.Append($"{word.Text} ");
+                        }
+                    }
+
+                    return theFullReturn.ToString();
+                }
+
+                return could_not_analyze;
+            }
+            catch (Exception ex)
+            {
+                return could_not_analyze;
+            }
+        }
+
         public async Task<string> OCRPhoto(Stream photo, string originLanguage)
         {
             try

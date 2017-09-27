@@ -49,14 +49,21 @@ namespace CogTourist
         {
             var pickAction = UIAlertAction.Create("Pick Photo", UIAlertActionStyle.Default, async (obj) => await TakeOrPickPhoto(false));
             var takeAction = UIAlertAction.Create("Take Photo", UIAlertActionStyle.Default, async (obj) => await TakeOrPickPhoto(true));
+
+            var handwriteAction = UIAlertAction.Create("OCR Handwriting", UIAlertActionStyle.Default,
+                                                       async (obj) => await TakeOrPickPhoto(true, handwrite: true));
+
             var cancelAction = UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, (obj) => descriptionLabel.Text = "");
+
+            alert.AddAction(handwriteAction);
 
             alert.AddAction(pickAction);
             alert.AddAction(takeAction);
+
             alert.AddAction(cancelAction);
         }
 
-        async Task TakeOrPickPhoto(bool takePhoto)
+        async Task TakeOrPickPhoto(bool takePhoto, bool handwrite = false)
         {
             theImage.Image = null;
             descriptionLabel.Text = "";
@@ -83,10 +90,21 @@ namespace CogTourist
 
                 imageStream.Position = 0;
 
-                await Translate(AppDelegate.CurrentLanguage.LanguageCode, imageStream);
+                if (handwrite)
+                    await OCRHandwriting(imageStream);
+                else
+                    await Translate(AppDelegate.CurrentLanguage.LanguageCode, imageStream);
             }
 
             loading.Hide();
+        }
+
+        async Task OCRHandwriting(Stream incomingImage)
+        {
+            var vs = new VisionService();
+            var desc = await vs.OCRHandwriting(incomingImage);
+
+            descriptionLabel.Text = desc;
         }
 
         async Task Translate(string language, Stream incomingImage)
