@@ -80,7 +80,7 @@ namespace describe
 
             View.Add(loading);
 
-            var vision = new VisionServiceClient("d4aac7248b344c43a617882035202e5c", "https://westcentralus.api.cognitive.microsoft.com/vision/v1.0");
+            var vision = new VisionServiceClient("<YOUR STUFF HERE>", "https://westcentralus.api.cognitive.microsoft.com/vision/v1.0");
 
             using (var photoStream = photo.GetStream())
             {
