@@ -5,10 +5,10 @@ Part of the human experience is being able to look at a scene and judge what is 
 But the days where only humans can do that are numbered. Microsoft Cognitive Services harnesses the power of machine learning and provides a set of 24 APIs that allow for your application to become more human. In this session, you will see some of the power of Cognitive Services as we demo key features to build an intelligent app. You will learn how to create and invoke them via REST services to make your app more human.
 
 ## The Slides
-[Here they are](https://msou.co/3x)
+[Here they are](https://msou.co/4c)
 
 
 ## Documentation Links
-* [Computer Vision API](https://msou.co/3o)
-* [Emotion API](https://msou.co/3r)
-* [Translator API](https://msou.co/3u)
+* [Computer Vision API](https://msou.co/4f)
+* [Emotion API](https://msou.co/4i)
+* [Translator API](https://msou.co/4l)
