@@ -9,6 +9,6 @@ But the days where only humans can do that are numbered. Microsoft Cognitive Ser
 
 
 ## Documentation Links
-* [Computer Vision API](https://msou.co/4u)
+* [Computer Vision API](https://msou.co/4x)
 * [Emotion API](https://msou.co/4r)
 * [Translator API](https://msou.co/4o)
